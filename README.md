@@ -1,143 +1,120 @@
 # Aneka Citra Computer - E-Commerce Printer
 
-Website e-commerce untuk toko printer **Aneka Citra Computer** di Jambu 2, Kota Bogor.
+Website e-commerce buat toko printer **Aneka Citra Computer** di Jambu 2, Bogor. Di sini ada katalog produk, cart, checkout, login, sampai dashboard admin.
 
----
+## Gambaran Singkat
 
-**Developer:** Fiqih Badrian ([@fiqihbadrian](https://github.com/fiqihbadrian))  
-
-**Email:** fiqihbadrian@gmail.com  
-
-**Development Period:** January 2026  
-
-**Project Type:** Full-Stack E-Commerce Web Application
-
----
-
-## Fitur
-
-
-### Customer Features
-- Katalog produk printer with detail lengkap
-- Shopping cart with CRUD operations (Create, Read, Update, Delete)
-- Autentikasi (Login & Register)
+- Katalog produk printer dan aksesoris
+- Keranjang belanja dengan tambah, ubah jumlah, hapus item
+- Login dan register user
 - Checkout dengan form pengiriman
-- Simulasi pembayaran with Xendit (mode sandbox)
-- Product detail modal (Tokopedia-style) dengan quantity selector dan tabs
-
-### Admin Features
-- Dashboard admin dengan statistik
-- CRUD Produk (Create, Read, Update, Delete)
-- Manajemen database produk melalui UI
-- Protected routes dengan JWT middleware
-
+- Simulasi pembayaran pakai Xendit sandbox
+- Dashboard admin buat kelola produk dan pesanan
 
 ## Tech Stack
 
-- **Framework:** Next.js 16.1.1 (App Router)
+- **Framework:** Next.js 16.1.1
 - **Language:** TypeScript
 - **Styling:** Tailwind CSS v4
-- **Database:** SQLite with Prisma ORM v5.14.0
-- **Authentication:** JWT (jose) + bcryptjs
+- **Database:** SQLite + Prisma ORM v5.14.0
+- **Auth:** JWT (jose) + bcryptjs
 - **Validation:** Zod
-- **Payment:** Xendit (sandbox mode)
+- **Payment:** Xendit sandbox/mock
 
-## Installation
+## Setup
 
+1. Install dependency.
 
-1. Clone this repository
-2. Install dependencies:
-```bash
-npm install
-```
+   ```bash
+   npm install
+   ```
 
-3. Setup environment variables `.env`:
-```env
-DATABASE_URL="file:./prisma/dev.db"
-JWT_SECRET="your-secret-key-here"
-```
+2. Isi `.env`.
 
-4. Generate Prisma client & run migrations:
-```bash
-npm run prisma:generate
-npm run prisma:migrate
-```
+   ```env
+   DATABASE_URL="file:./prisma/dev.db"
+   JWT_SECRET="your-secret-key-here"
+   ```
 
-5. Seed database with data awal:
-```bash
-npm run prisma:seed
-```
+3. Generate Prisma client, lalu migrate database.
 
-6. run development server:
-```bash
-npm run dev
-```
+   ```bash
+   npm run prisma:generate
+   npm run prisma:migrate
+   ```
 
-Buka [http://localhost:3000](http://localhost:3000) di browser.
+4. Seed data awal.
 
-## Admin Access
+   ```bash
+   npm run prisma:seed
+   ```
+
+5. Jalankan project.
+
+   ```bash
+   npm run dev
+   ```
+
+   Buka [http://localhost:3000](http://localhost:3000).
+
+## Login Admin
+
+Setelah seed, pakai akun ini buat masuk ke dashboard admin:
 
 - **Email:** admin@anekacitra.com
 - **Password:** admin123
 
-## Database Schema
+## Fitur Customer
 
-- **User:** Customer accounts with role (USER/ADMIN)
-- **Admin:** Admin relation (1-to-1 with User)
-- **Product:** Product catalog dengan brand, price, stock, description
-- **Order:** Customer orders with payment status
-- **OrderItem:** Order line items (relasi many-to-many)
+1. Buka homepage dan lihat produk.
+2. Klik detail produk kalau mau cek spesifikasi lengkap.
+3. Login atau register kalau belum punya akun.
+4. Tambah produk ke cart dan atur jumlahnya.
+5. Checkout isi data pengiriman.
+6. Lanjut ke pembayaran.
+7. Status pembayaran bisa disimulasikan lewat Xendit sandbox.
 
-## Available Scripts
+## Fitur Admin
+
+- Lihat ringkasan data toko di dashboard.
+- Kelola produk: tambah, edit, hapus.
+- Kelola pesanan: lihat status dan update kalau perlu.
+- Route admin dilindungi JWT middleware.
+
+## Database
+
+- **User:** akun customer dan admin
+- **Admin:** relasi akun admin
+- **Product:** data produk, harga, stok, deskripsi, gambar
+- **Order:** data pesanan dan status pembayaran
+- **OrderItem:** detail item di tiap order
+
+## Script
 
 ```bash
-npm run dev           # Start development server
-npm run build         # Build for production
-npm run start         # Start production server
-npm run lint          # Run ESLint
+npm run dev
+npm run build
+npm run start
+npm run lint
 
-# Prisma commands
-npm run prisma:generate   # Generate Prisma client
-npm run prisma:migrate    # Run database migrations
-npm run prisma:studio     # Open Prisma Studio (database GUI)
-npm run prisma:seed       # Seed database dengan data awal
+npm run prisma:generate
+npm run prisma:migrate
+npm run prisma:studio
+npm run prisma:seed
 ```
-
-## Features Detail
-
-### Customer Flow
-1. Browse products homepage
-2. Click "Lihat Detail" untuk melihat detail produk lengkap
-3. Login/Register
-4. Tambah produk ke keranjang dengan quantity yang diinginkan
-5. Kelola keranjang (update quantity, hapus item)
-6. Checkout with fill form pengiriman
-7. Pilih metode pembayaran
-8. Simulasi pembayaran (Xendit sandbox)
-
-### Admin Flow
-1. Login dengan akun admin
-2. Akses Dashboard Admin dari header
-3. Kelola Produk:
-   - View semua produk dalam table
-   - Tambah produk baru
-   - Edit produk existing
-   - Hapus produk
-4. Semua perubahan langsung tersimpan di database
 
 ## Security
 
-- Password di-hash menggunakan bcryptjs (salt rounds: 10)
-- JWT tokens disimpan dalam httpOnly cookies
-- Admin routes protected dengan middleware JWT verification
-- Zod validation untuk semua API endpoints
+- Password di-hash pakai bcryptjs
+- JWT disimpan di httpOnly cookie
+- Route admin dilindungi middleware
+- Input API divalidasi pakai Zod
 
-## Notes
+## Catatan
 
-
-- Xendit masih dalam mode sandbox/simulasi
-- Middleware menggunakan deprecated convention (akan migrate ke "proxy")
-- For production, ganti SQLite ke PostgreSQL/MySQL
+- SQLite dipakai buat development biar setup-nya gampang
+- Xendit masih mode sandbox
+- Kalau mau production, database bisa dipindah ke PostgreSQL atau MySQL
 
 ## Preview
 
